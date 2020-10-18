@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1900" />
+    <title>2D Live Chat</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+    <!-- Pollyfill script -->
+    <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+    <!-- Live2DCubismCore script -->
+    <script src="../../../Core/live2dcubismcore.js"></script>
+    <!-- Build script -->
+    <script src="./src/clmtrackr.js"></script>
+  </head>
+  <body>
+    <div id="leftPanelContainer">
+      <div id="videoContainer">
+        <video
+          id="videoInput"
+          width="400px"
+          height="300px"
+          autoplay
+          loop
+          playsinline
+        ></video>
+        <canvas id="overlay" width="400px" height="300px"></canvas>
+      </div>
+      <p>Printing coordinates of the first 10 points in facial features:</p>
+      <p id="positions"></p>
+    </div>
+    <script src="./dist/main.bundle.js"></script>
+    <script src="./dist/index.bundle.js"></script>
+  </body>
+</html>

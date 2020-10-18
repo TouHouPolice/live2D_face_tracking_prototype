@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Face tracker</title>
+        <meta charset="utf-8">
+
+        <link href="./styles/bootstrap.min.css" rel="stylesheet"
+            type="text/css">
+        <link rel="stylesheet" href="./styles/main.css">
+    </head>
+    <body>
+        <script src="./js/libs/utils.js"></script>
+        <script src="./js/clmtrackr.js"></script>
+
+
+        <div id="videoContainer">
+            <video id="videoInput" width="400px" height="300px" autoplay loop
+                playsinline>
+
+            </video>
+            <canvas id="overlay" width="400px" height="300px"></canvas>
+        </div>
+        <p>Printing coordinates of the first 10 points in facial features:</p>
+        <p id="positions"></p>
+
+
+
+
+        <script src='./js/index.js'></script>
+    </body>
+</html>

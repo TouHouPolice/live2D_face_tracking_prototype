@@ -1,0 +1,30 @@
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: fliph; /*IE*/
+  filter: fliph; /*IE*/
+  widows: 400px;
+  height: 300px;
+}
+
+#videoInput {
+  position: relative;
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: fliph; /*IE*/
+  filter: fliph; /*IE*/
+  widows: 400px;
+  height: 300px;
+}
+
+#videoContainer {
+  width: 400px;
+  height: 300px;
+  position: relative;
+  margin: 0;
+}

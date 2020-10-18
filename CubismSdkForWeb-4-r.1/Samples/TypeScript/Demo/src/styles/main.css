@@ -1,0 +1,46 @@
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: fliph; /*IE*/
+  filter: fliph; /*IE*/
+  widows: 400px;
+  height: 300px;
+}
+
+#videoInput {
+  position: relative;
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: fliph; /*IE*/
+  filter: fliph; /*IE*/
+  widows: 400px;
+  height: 300px;
+  filter: blur(50px);
+}
+
+#videoContainer {
+  width: 400px;
+  height: 300px;
+  position: relative;
+  margin: 0;
+}
+
+#leftPanelContainer {
+  top: 0;
+  left: 0;
+  margin: 0;
+  position: relative;
+  z-index: 5;
+}
+
+#self-canvas {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: -500px;
+}
