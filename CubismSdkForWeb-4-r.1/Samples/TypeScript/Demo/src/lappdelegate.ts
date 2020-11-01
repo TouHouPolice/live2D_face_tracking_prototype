@@ -90,12 +90,14 @@ export class LAppDelegate {
     const supportTouch: boolean = "ontouchend" in canvas;
 
     if (supportTouch) {
+      console.log("Touch");
       // タッチ関連コールバック関数登録
       canvas.ontouchstart = onTouchBegan;
       canvas.ontouchmove = onTouchMoved;
       canvas.ontouchend = onTouchEnded;
       canvas.ontouchcancel = onTouchCancel;
     } else {
+      console.log("Click");
       // マウス関連コールバック関数登録
       canvas.onmousedown = onClickBegan;
       canvas.onmousemove = onMouseMoved;
@@ -289,6 +291,7 @@ export class LAppDelegate {
  * クリックしたときに呼ばれる。
  */
 function onClickBegan(e: MouseEvent): void {
+  console.log("clicked");
   if (!LAppDelegate.getInstance()._view) {
     LAppPal.printMessage("view notfound");
     return;

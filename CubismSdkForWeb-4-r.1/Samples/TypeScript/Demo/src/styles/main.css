@@ -36,6 +36,7 @@
   margin: 0;
   position: relative;
   z-index: 5;
+  width: 500px;
 }
 
 #self-canvas {
@@ -43,4 +44,8 @@
   z-index: 0;
   top: 0;
   right: -500px;
+}
+
+#posisition {
+  width: 500px;
 }

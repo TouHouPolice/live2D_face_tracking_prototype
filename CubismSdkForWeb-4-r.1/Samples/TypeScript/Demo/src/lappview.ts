@@ -5,17 +5,17 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { Live2DCubismFramework as cubismMatrix44 } from '@framework/math/cubismmatrix44';
-import { Live2DCubismFramework as cubismviewmatrix } from '@framework/math/cubismviewmatrix';
+import { Live2DCubismFramework as cubismMatrix44 } from "@framework/math/cubismmatrix44";
+import { Live2DCubismFramework as cubismviewmatrix } from "@framework/math/cubismviewmatrix";
 import Csm_CubismViewMatrix = cubismviewmatrix.CubismViewMatrix;
 import Csm_CubismMatrix44 = cubismMatrix44.CubismMatrix44;
-import { TouchManager } from './touchmanager';
-import { LAppLive2DManager } from './lapplive2dmanager';
-import { LAppDelegate, canvas, gl } from './lappdelegate';
-import { LAppSprite } from './lappsprite';
-import { TextureInfo } from './lapptexturemanager';
-import { LAppPal } from './lapppal';
-import * as LAppDefine from './lappdefine';
+import { TouchManager } from "./touchmanager";
+import { LAppLive2DManager } from "./lapplive2dmanager";
+import { LAppDelegate, canvas, gl } from "./lappdelegate";
+import { LAppSprite } from "./lappsprite";
+import { TextureInfo } from "./lapptexturemanager";
+import { LAppPal } from "./lapppal";
+import * as LAppDefine from "./lappdefine";
 
 /**
  * 描画クラス。
@@ -118,7 +118,7 @@ export class LAppView {
     const textureManager = LAppDelegate.getInstance().getTextureManager();
     const resourcesPath = LAppDefine.ResourcesPath;
 
-    let imageName = '';
+    let imageName = "";
 
     // 背景画像初期化
     imageName = LAppDefine.BackImageName;
@@ -210,7 +210,7 @@ export class LAppView {
       if (LAppDefine.DebugTouchLogEnable) {
         LAppPal.printMessage(`[APP]touchesEnded x: ${x} y: ${y}`);
       }
-      live2DManager.onTap(x, y);
+      // live2DManager.onTap(x, y);
 
       // 歯車にタップしたか
       if (this._gear.isHit(pointX, pointY)) {

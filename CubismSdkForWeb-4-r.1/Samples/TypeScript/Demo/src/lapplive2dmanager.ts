@@ -5,17 +5,17 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { Live2DCubismFramework as cubismmatrix44 } from '@framework/math/cubismmatrix44';
-import { Live2DCubismFramework as csmvector } from '@framework/type/csmvector';
-import { Live2DCubismFramework as acubismmotion } from '@framework/motion/acubismmotion';
+import { Live2DCubismFramework as cubismmatrix44 } from "@framework/math/cubismmatrix44";
+import { Live2DCubismFramework as csmvector } from "@framework/type/csmvector";
+import { Live2DCubismFramework as acubismmotion } from "@framework/motion/acubismmotion";
 import Csm_csmVector = csmvector.csmVector;
 import Csm_CubismMatrix44 = cubismmatrix44.CubismMatrix44;
 import ACubismMotion = acubismmotion.ACubismMotion;
 
-import { LAppModel } from './lappmodel';
-import { LAppPal } from './lapppal';
-import { canvas } from './lappdelegate';
-import * as LAppDefine from './lappdefine';
+import { LAppModel } from "./lappmodel";
+import { LAppPal } from "./lapppal";
+import { canvas } from "./lappdelegate";
+import * as LAppDefine from "./lappdefine";
 
 export let s_instance: LAppLive2DManager = null;
 
@@ -104,13 +104,14 @@ export class LAppLive2DManager {
       );
     }
 
-    for (let i = 0; i < this._models.getSize(); i++) {
+    for (let i: number = 0; i < this._models.getSize(); i++) {
       if (this._models.at(i).hitTest(LAppDefine.HitAreaNameHead, x, y)) {
         if (LAppDefine.DebugLogEnable) {
           LAppPal.printMessage(
-            `[APP]hit area: [${LAppDefine.HitAreaNameHead}]`
+            `[APP]hit area: [${LAppDefine.HitAreaNameBody}]`
           );
         }
+        console.log("expression set");
         this._models.at(i).setRandomExpression();
       } else if (this._models.at(i).hitTest(LAppDefine.HitAreaNameBody, x, y)) {
         if (LAppDefine.DebugLogEnable) {
@@ -118,14 +119,37 @@ export class LAppLive2DManager {
             `[APP]hit area: [${LAppDefine.HitAreaNameBody}]`
           );
         }
+        console.log("motion set");
+
         this._models
           .at(i)
           .startRandomMotion(
             LAppDefine.MotionGroupTapBody,
-            LAppDefine.PriorityNormal,
-            this._finishedMotion
+            LAppDefine.PriorityNormal
           );
       }
+
+      // ここから追加
+      else if (this._models.at(i).hitTest("Right", x, y)) {
+        if (LAppDefine.DebugLogEnable) {
+          LAppPal.printMessage(
+            `[APP]hit area: [${LAppDefine.HitAreaNameBody}]`
+          );
+        }
+        this._models
+          .at(i)
+          .startRandomRightHandMotion("Right", LAppDefine.PriorityForce);
+      } else if (this._models.at(i).hitTest("Left", x, y)) {
+        if (LAppDefine.DebugLogEnable) {
+          LAppPal.printMessage(
+            `[APP]hit area: [${LAppDefine.HitAreaNameBody}]`
+          );
+        }
+        this._models
+          .at(i)
+          .startRandomLeftHandMotion("Left", LAppDefine.PriorityForce);
+      }
+      // ここまで追加
     }
   }
 
@@ -178,9 +202,9 @@ export class LAppLive2DManager {
     // model3.jsonのパスを決定する。
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと。
     const model: string = LAppDefine.ModelDir[index];
-    const modelPath: string = LAppDefine.ResourcesPath + model + '/';
+    const modelPath: string = LAppDefine.ResourcesPath + model + "/";
     let modelJsonName: string = LAppDefine.ModelDir[index];
-    modelJsonName += '.model3.json';
+    modelJsonName += ".model3.json";
 
     this.releaseAllModel();
     this._models.pushBack(new LAppModel());
@@ -193,7 +217,7 @@ export class LAppLive2DManager {
   constructor() {
     this._viewMatrix = new Csm_CubismMatrix44();
     this._models = new Csm_csmVector<LAppModel>();
-    this._sceneIndex = 0;
+    this._sceneIndex = 1; //model seletion
     this.changeScene(this._sceneIndex);
   }
 
@@ -202,7 +226,7 @@ export class LAppLive2DManager {
   _sceneIndex: number; // 表示するシーンのインデックス値
   // モーション再生終了のコールバック関数
   _finishedMotion = (self: ACubismMotion): void => {
-    LAppPal.printMessage('Motion Finished:');
+    LAppPal.printMessage("Motion Finished:");
     console.log(self);
   };
 }

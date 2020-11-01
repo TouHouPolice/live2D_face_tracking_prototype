@@ -5,23 +5,28 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { Live2DCubismFramework as live2dcubismframework } from '@framework/live2dcubismframework';
-import { Live2DCubismFramework as cubismid } from '@framework/id/cubismid';
-import { Live2DCubismFramework as cubismusermodel } from '@framework/model/cubismusermodel';
-import { Live2DCubismFramework as icubismmodelsetting } from '@framework/icubismmodelsetting';
-import { Live2DCubismFramework as cubismmodelsettingjson } from '@framework/cubismmodelsettingjson';
-import { Live2DCubismFramework as cubismdefaultparameterid } from '@framework/cubismdefaultparameterid';
-import { Live2DCubismFramework as acubismmotion } from '@framework/motion/acubismmotion';
-import { Live2DCubismFramework as cubismeyeblink } from '@framework/effect/cubismeyeblink';
-import { Live2DCubismFramework as cubismbreath } from '@framework/effect/cubismbreath';
-import { Live2DCubismFramework as csmvector } from '@framework/type/csmvector';
-import { Live2DCubismFramework as csmmap } from '@framework/type/csmmap';
-import { Live2DCubismFramework as cubismmatrix44 } from '@framework/math/cubismmatrix44';
-import { Live2DCubismFramework as cubismmotion } from '@framework/motion/cubismmotion';
-import { Live2DCubismFramework as cubismmotionqueuemanager } from '@framework/motion/cubismmotionqueuemanager';
-import { Live2DCubismFramework as csmstring } from '@framework/type/csmstring';
-import { Live2DCubismFramework as csmrect } from '@framework/type/csmrectf';
-import { CubismLogInfo } from '@framework/utils/cubismdebug';
+import { Live2DCubismFramework as live2dcubismframework } from "@framework/live2dcubismframework";
+import { Live2DCubismFramework as cubismid } from "@framework/id/cubismid";
+import { Live2DCubismFramework as cubismusermodel } from "@framework/model/cubismusermodel";
+import { Live2DCubismFramework as icubismmodelsetting } from "@framework/icubismmodelsetting";
+import { Live2DCubismFramework as cubismmodelsettingjson } from "@framework/cubismmodelsettingjson";
+import { Live2DCubismFramework as cubismdefaultparameterid } from "@framework/cubismdefaultparameterid";
+import { Live2DCubismFramework as acubismmotion } from "@framework/motion/acubismmotion";
+import { Live2DCubismFramework as cubismeyeblink } from "@framework/effect/cubismeyeblink";
+import { Live2DCubismFramework as cubismbreath } from "@framework/effect/cubismbreath";
+import { Live2DCubismFramework as csmvector } from "@framework/type/csmvector";
+import { Live2DCubismFramework as csmmap } from "@framework/type/csmmap";
+import { Live2DCubismFramework as cubismmatrix44 } from "@framework/math/cubismmatrix44";
+import { Live2DCubismFramework as cubismmotion } from "@framework/motion/cubismmotion";
+import { Live2DCubismFramework as cubismmotionqueuemanager } from "@framework/motion/cubismmotionqueuemanager";
+import { Live2DCubismFramework as csmstring } from "@framework/type/csmstring";
+import { Live2DCubismFramework as csmrect } from "@framework/type/csmrectf";
+import { CubismLogInfo } from "@framework/utils/cubismdebug";
+
+import { Live2DCubismFramework as cubismstring } from "@framework/utils/cubismstring";
+
+import { Live2DCubismFramework as cubismmotionmanager } from "@framework/motion/cubismmotionmanager";
+
 import csmRect = csmrect.csmRect;
 import csmString = csmstring.csmString;
 import InvalidMotionQueueEntryHandleValue = cubismmotionqueuemanager.InvalidMotionQueueEntryHandleValue;
@@ -42,11 +47,14 @@ import ICubismModelSetting = icubismmodelsetting.ICubismModelSetting;
 import CubismModelSettingJson = cubismmodelsettingjson.CubismModelSettingJson;
 import CubismDefaultParameterId = cubismdefaultparameterid;
 
-import { LAppPal } from './lapppal';
-import { gl, canvas, frameBuffer, LAppDelegate } from './lappdelegate';
-import { TextureInfo } from './lapptexturemanager';
-import * as LAppDefine from './lappdefine';
-import 'whatwg-fetch';
+import CubismMotionManager = cubismmotionmanager.CubismMotionManager;
+import CubismString = cubismstring.CubismString;
+
+import { LAppPal } from "./lapppal";
+import { gl, canvas, frameBuffer, LAppDelegate } from "./lappdelegate";
+import { TextureInfo } from "./lapptexturemanager";
+import * as LAppDefine from "./lappdefine";
+import "whatwg-fetch";
 
 enum LoadStep {
   LoadAssets,
@@ -116,7 +124,7 @@ export class LAppModel extends CubismUserModel {
     this._modelSetting = setting;
 
     // CubismModel
-    if (this._modelSetting.getModelFileName() != '') {
+    if (this._modelSetting.getModelFileName() != "") {
       const modelFileName = this._modelSetting.getModelFileName();
 
       fetch(`${this._modelHomeDir}/${modelFileName}`)
@@ -131,7 +139,7 @@ export class LAppModel extends CubismUserModel {
 
       this._state = LoadStep.WaitLoadModel;
     } else {
-      LAppPal.printMessage('Model data does not exist.');
+      LAppPal.printMessage("Model data does not exist.");
     }
 
     // Expression
@@ -184,7 +192,7 @@ export class LAppModel extends CubismUserModel {
 
     // Physics
     const loadCubismPhysics = (): void => {
-      if (this._modelSetting.getPhysicsFileName() != '') {
+      if (this._modelSetting.getPhysicsFileName() != "") {
         const physicsFileName = this._modelSetting.getPhysicsFileName();
 
         fetch(`${this._modelHomeDir}/${physicsFileName}`)
@@ -208,7 +216,7 @@ export class LAppModel extends CubismUserModel {
 
     // Pose
     const loadCubismPose = (): void => {
-      if (this._modelSetting.getPoseFileName() != '') {
+      if (this._modelSetting.getPoseFileName() != "") {
         const poseFileName = this._modelSetting.getPoseFileName();
 
         fetch(`${this._modelHomeDir}/${poseFileName}`)
@@ -279,7 +287,7 @@ export class LAppModel extends CubismUserModel {
 
     // UserData
     const loadUserData = (): void => {
-      if (this._modelSetting.getUserDataFile() != '') {
+      if (this._modelSetting.getUserDataFile() != "") {
         const userDataFile = this._modelSetting.getUserDataFile();
 
         fetch(`${this._modelHomeDir}/${userDataFile}`)
@@ -397,8 +405,8 @@ export class LAppModel extends CubismUserModel {
         modelTextureNumber++
       ) {
         // テクスチャ名が空文字だった場合はロード・バインド処理をスキップ
-        if (this._modelSetting.getTextureFileName(modelTextureNumber) == '') {
-          console.log('getTextureFileName null');
+        if (this._modelSetting.getTextureFileName(modelTextureNumber) == "") {
+          console.log("getTextureFileName null");
           continue;
         }
 
@@ -438,12 +446,11 @@ export class LAppModel extends CubismUserModel {
     this.deleteRenderer();
     this.createRenderer();
     this.setupTextures();
-  }
+  } //where I should be working on
 
   /**
    * 更新
-   */
-  public update(): void {
+   */ public update(): void {
     if (this._state != LoadStep.CompleteSetup) return;
 
     const deltaTimeSeconds: number = LAppPal.getDeltaTime();
@@ -458,32 +465,36 @@ export class LAppModel extends CubismUserModel {
 
     //--------------------------------------------------------------------------
     this._model.loadParameters(); // 前回セーブされた状態をロード
-    if (this._motionManager.isFinished()) {
-      // モーションの再生がない場合、待機モーションの中からランダムで再生する
-      this.startRandomMotion(
-        LAppDefine.MotionGroupIdle,
-        LAppDefine.PriorityIdle
-      );
-    } else {
-      motionUpdated = this._motionManager.updateMotion(
-        this._model,
-        deltaTimeSeconds
-      ); // モーションを更新
-    }
+    // if (this._motionManager.isFinished()) {
+    //   // モーションの再生がない場合、待機モーションの中からランダムで再生する
+    //   this.startRandomMotion(
+    //     LAppDefine.MotionGroupIdle,
+    //     LAppDefine.PriorityIdle
+    //   );
+    // } else {
+    //   motionUpdated = this._motionManager.updateMotion(
+    //     this._model,
+    //     deltaTimeSeconds
+    //   ); // モーションを更新
+    // }
+    motionUpdated !=
+      this._rightArmMotionManager.updateMotion(this._model, deltaTimeSeconds); //  <追加
+    motionUpdated !=
+      this._leftArmMotionManager.updateMotion(this._model, deltaTimeSeconds); //  <追加
     this._model.saveParameters(); // 状態を保存
     //--------------------------------------------------------------------------
 
-    // まばたき
-    if (!motionUpdated) {
-      if (this._eyeBlink != null) {
-        // メインモーションの更新がないとき
-        this._eyeBlink.updateParameters(this._model, deltaTimeSeconds); // 目パチ
-      }
-    }
+    // // まばたき
+    // if (!motionUpdated) {
+    //   if (this._eyeBlink != null) {
+    //     // メインモーションの更新がないとき
+    //     this._eyeBlink.updateParameters(this._model, deltaTimeSeconds); // 目パチ
+    //   }
+    // }
 
-    if (this._expressionManager != null) {
-      this._expressionManager.updateMotion(this._model, deltaTimeSeconds); // 表情でパラメータ更新（相対変化）
-    }
+    // if (this._expressionManager != null) {
+    //   this._expressionManager.updateMotion(this._model, deltaTimeSeconds); // 表情でパラメータ更新（相対変化）
+    // }
 
     // ドラッグによる変化
     // ドラッグによる顔の向きの調整
@@ -495,10 +506,7 @@ export class LAppModel extends CubismUserModel {
     );
 
     // ドラッグによる体の向きの調整
-    this._model.addParameterValueById(
-      this._idParamBodyAngleX,
-      this._dragX * 10
-    ); // -10から10の値を加える
+    this._model.addParameterValueById(this._idParamBodyAngleX, this._dragX * 4); // -10から10の値を加える
 
     // ドラッグによる目の向きの調整
     this._model.addParameterValueById(this._idParamEyeBallX, this._dragX); // -1から1の値を加える
@@ -602,6 +610,81 @@ export class LAppModel extends CubismUserModel {
     );
   }
 
+  public startHandMotion(
+    targetManage: CubismMotionManager,
+    group: string,
+    no: number,
+    priority: number
+  ): CubismMotionQueueEntryHandle {
+    if (priority == LAppDefine.PriorityForce) {
+      targetManage.setReservePriority(priority);
+    } else if (!targetManage.reserveMotion(priority)) {
+      if (this._debugMode) {
+        LAppPal.printMessage(`[APP] can't start motion [{${group}} _ {${no}}]`);
+      }
+      return InvalidMotionQueueEntryHandleValue;
+    }
+
+    const fileName: string = this._modelSetting.getMotionFileName(group, no);
+
+    // ex) idle_ 0
+    let name: string = CubismString.getFormatedString("{0} _ {1}", group, no);
+    let motion: CubismMotion = this._motions[name];
+    let autoDelete = false;
+
+    if (motion == null) {
+      // Do not play if not read by preLoad
+      return InvalidMotionQueueEntryHandleValue;
+    }
+
+    if (this._debugMode) {
+      LAppPal.printMessage(`[APP] start motion: [{${group}} _ {${no}}] `); // group.no.;
+    }
+    return targetManage.startMotionPriority(motion, autoDelete, priority);
+  }
+
+  // Duplicate from startRandomMotion
+  public startRandomRightHandMotion(
+    group: string,
+    priority: number
+  ): CubismMotionQueueEntryHandle {
+    if (this._modelSetting.getMotionCount(group) == 0) {
+      return InvalidMotionQueueEntryHandleValue;
+    }
+
+    let no: number = Math.floor(
+      Math.random() * this._modelSetting.getMotionCount(group)
+    );
+
+    return this.startHandMotion(
+      this._rightArmMotionManager,
+      group,
+      no,
+      priority
+    );
+  }
+
+  // Duplicate from startRandomMotion
+  public startRandomLeftHandMotion(
+    group: string,
+    priority: number
+  ): CubismMotionQueueEntryHandle {
+    if (this._modelSetting.getMotionCount(group) == 0) {
+      return InvalidMotionQueueEntryHandleValue;
+    }
+
+    let no: number = Math.floor(
+      Math.random() * this._modelSetting.getMotionCount(group)
+    );
+
+    return this.startHandMotion(
+      this._leftArmMotionManager,
+      group,
+      no,
+      priority
+    );
+  }
+
   /**
    * ランダムに選ばれたモーションの再生を開始する。
    * @param group モーショングループ名
@@ -673,7 +756,7 @@ export class LAppModel extends CubismUserModel {
    * イベントの発火を受け取る
    */
   public motionEventFired(eventValue: csmString): void {
-    CubismLogInfo('{0} is fired on LAppModel!!', eventValue.s);
+    CubismLogInfo("{0} is fired on LAppModel!!", eventValue.s);
   }
 
   /**
@@ -815,6 +898,9 @@ export class LAppModel extends CubismUserModel {
   public constructor() {
     super();
 
+    this._rightArmMotionManager = new CubismMotionManager(); //  <<<追加！
+    this._leftArmMotionManager = new CubismMotionManager(); //  <<<追加！
+
     this._modelSetting = null;
     this._modelHomeDir = null;
     this._userTimeSeconds = 0.0;
@@ -853,6 +939,9 @@ export class LAppModel extends CubismUserModel {
     this._motionCount = 0;
     this._allMotionCount = 0;
   }
+
+  _rightArmMotionManager: CubismMotionManager; ///  <<< 追加！
+  _leftArmMotionManager: CubismMotionManager; ///  <<< 追加！
 
   _modelSetting: ICubismModelSetting; // モデルセッティング情報
   _modelHomeDir: string; // モデルセッティングが置かれたディレクトリ
