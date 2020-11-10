@@ -56,6 +56,7 @@ import { TextureInfo } from "./lapptexturemanager";
 import * as LAppDefine from "./lappdefine";
 import "whatwg-fetch";
 
+import { headAngleX, headAngleZ, headAngleY } from "./index.js";
 enum LoadStep {
   LoadAssets,
   LoadModel,
@@ -498,12 +499,9 @@ export class LAppModel extends CubismUserModel {
 
     // ドラッグによる変化
     // ドラッグによる顔の向きの調整
-    this._model.addParameterValueById(this._idParamAngleX, this._dragX * 30); // -30から30の値を加える
-    this._model.addParameterValueById(this._idParamAngleY, this._dragY * 30);
-    this._model.addParameterValueById(
-      this._idParamAngleZ,
-      this._dragX * this._dragY * -30
-    );
+    this._model.addParameterValueById(this._idParamAngleX, headAngleX * 2); // -30から30の値を加える this._dragX * 30
+    this._model.addParameterValueById(this._idParamAngleY, headAngleY); //
+    this._model.addParameterValueById(this._idParamAngleZ, headAngleZ * -1.3); //this._dragX * this._dragY * -30
 
     // ドラッグによる体の向きの調整
     this._model.addParameterValueById(this._idParamBodyAngleX, this._dragX * 4); // -10から10の値を加える

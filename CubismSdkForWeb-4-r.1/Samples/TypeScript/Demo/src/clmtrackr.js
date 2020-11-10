@@ -14338,6 +14338,7 @@ var clm = {
 		var sobelInit = false;
 		var lbpInit = false;
 
+        var currentScaling=1;
 		var currentParameters = [];
 		var currentPositions = [];
 		var previousParameters = [];
@@ -14666,11 +14667,13 @@ var clm = {
 				if (rotation > halfPI) {
 					rotation -= Math.PI;
 				}
-				scaling = currentParameters[1] / Math.sin(rotation);
+                scaling = currentParameters[1] / Math.sin(rotation);
+                
 				translateX = currentParameters[2];
 				translateY = currentParameters[3];
 			}
 
+            currentScaling=scaling;
 			// copy canvas to a new dirty canvas
 			sketchCC.save();
 
@@ -14687,7 +14690,7 @@ var clm = {
 			//	get cropped images around new points based on model parameters (not scaled and translated)
 			var patchPositions = calculatePositions(currentParameters, false);
 
-			// check whether tracking is ok
+			// check whether trackintracker is ok
 			if (scoringWeights && (facecheck_count % 10 == 0)) {
 				if (!checkTracking()) {
 					// reset all parameters
@@ -14961,7 +14964,11 @@ var clm = {
 			} else {
 				return currentPositions;
 			}
-		};
+        };
+        
+        this.getCurrentScaling=function(){
+            return currentScaling;
+        }
 
 		/*
 		 *	get parameters of current model fit
