@@ -21,6 +21,12 @@ var trackingStarted = false;
 export var headAngleX;
 export var headAngleY;
 export var headAngleZ;
+export var mouthOpenY;
+export var eyeBallY;
+
+var eyeBallYOffset = 0.5;
+
+var mouthOpenOffset = 7;
 
 navigator.getUserMedia =
   navigator.getUserMedia ||
@@ -63,7 +69,7 @@ function positionLoop() {
     // document.getElementById("positions").innerHTML = positionString;
 
     positions.forEach((p, index) => {
-      if (index === 33 || index === 62 || index === 7) {
+      if (index === 24 || index === 27 || index === 26) {
         positionString +=
           "Point " +
           index +
@@ -82,9 +88,27 @@ function positionLoop() {
       positions[62],
       ctracker.getCurrentScaling()
     );
+    var eyeGap = Math.abs(positions[24][1] - positions[26][1]);
+    var eyeCenter = (positions[24][1] + positions[26][1]) / 2;
+
+    var mouthGap = Math.abs(positions[60][1] - positions[57][1]);
+    if (mouthGap <= mouthOpenOffset) {
+      mouthOpenY = 0;
+    } else {
+      mouthOpenY = (mouthGap - mouthOpenOffset) * 0.1;
+    }
+
+    eyeBallY = eyeCenter - positions[27][1] - eyeBallYOffset;
+
     positionString += "HeadAngleX " + headAngleX + "<br/>";
     positionString += "HeadAngleY " + headAngleY + "<br/>";
     positionString += "HeadAngleZ " + headAngleZ + "<br/>";
+
+    positionString += "Mouth gap " + mouthGap + "<br/>";
+
+    positionString += "Eye gap Y " + eyeGap + "<br/>";
+    // positionString += "Eye ball Y " + positions[27][1] + "<br/>";
+    positionString += "Eye ball Y " + eyeBallY + "<br/>";
 
     document.getElementById("positions").innerHTML = positionString;
     //console.log(ctracker.getCurrentScaling());

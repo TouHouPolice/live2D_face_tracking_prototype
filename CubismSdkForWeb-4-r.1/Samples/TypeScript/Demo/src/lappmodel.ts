@@ -56,7 +56,13 @@ import { TextureInfo } from "./lapptexturemanager";
 import * as LAppDefine from "./lappdefine";
 import "whatwg-fetch";
 
-import { headAngleX, headAngleZ, headAngleY } from "./index.js";
+import {
+  headAngleX,
+  headAngleZ,
+  headAngleY,
+  mouthOpenY,
+  eyeBallY
+} from "./index.js";
 enum LoadStep {
   LoadAssets,
   LoadModel,
@@ -507,8 +513,10 @@ export class LAppModel extends CubismUserModel {
     this._model.addParameterValueById(this._idParamBodyAngleX, this._dragX * 4); // -10から10の値を加える
 
     // ドラッグによる目の向きの調整
-    this._model.addParameterValueById(this._idParamEyeBallX, this._dragX); // -1から1の値を加える
-    this._model.addParameterValueById(this._idParamEyeBallY, this._dragY);
+    this._model.addParameterValueById(this._idParamEyeBallX, 0); // -1から1の値を加える
+    this._model.addParameterValueById(this._idParamEyeBallY, eyeBallY);
+
+    this._model.addParameterValueById(this._idParamMouthOpenY, mouthOpenY);
 
     // 呼吸など
     if (this._breath != null) {
@@ -931,6 +939,18 @@ export class LAppModel extends CubismUserModel {
       CubismDefaultParameterId.ParamBodyAngleX
     );
 
+    this._idParamMouthOpenY = CubismFramework.getIdManager().getId(
+      CubismDefaultParameterId.ParamMouthOpenY
+    );
+
+    this._idParamEyeROpen = CubismFramework.getIdManager().getId(
+      CubismDefaultParameterId.ParamEyeROpen
+    );
+
+    this._idParamEyeLOpen = CubismFramework.getIdManager().getId(
+      CubismDefaultParameterId.ParamEyeLOpen
+    );
+
     this._state = LoadStep.LoadAssets;
     this._expressionCount = 0;
     this._textureCount = 0;
@@ -960,6 +980,9 @@ export class LAppModel extends CubismUserModel {
   _idParamEyeBallX: CubismIdHandle; // パラメータID: ParamEyeBallX
   _idParamEyeBallY: CubismIdHandle; // パラメータID: ParamEyeBAllY
   _idParamBodyAngleX: CubismIdHandle; // パラメータID: ParamBodyAngleX
+  _idParamMouthOpenY: CubismIdHandle;
+  _idParamEyeLOpen: CubismIdHandle;
+  _idParamEyeROpen: CubismIdHandle;
 
   _state: number; // 現在のステータス管理用
   _expressionCount: number; // 表情データカウント
